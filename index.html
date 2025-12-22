@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xem Hóa Đơn Online</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            font-family: sans-serif;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .error {
+            padding: 50px;
+            text-align: center;
+            color: red;
+        }
+        .header {
+            padding: 15px;
+            text-align: center;
+            background: #eee;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main">
+        <div class="header">Cửa hàng X – Hóa đơn điện tử</div>
+        <img id="hoadon-img" src="" alt="Đang tải hóa đơn...">
+    </div>
+
+    <script>
+        // Hàm lấy ID từ link (ví dụ ?id=001)
+        const urlParams = new URLSearchParams(window.location.search);
+        const billId = urlParams.get('id');
+        const imgElement = document.getElementById('hoadon-img');
+
+        if (billId) {
+            // Tìm ảnh trong thư mục img/ten-id.jpg
+            imgElement.src = 'img/' + billId + '.jpg';
+
+            // Nếu không tìm thấy ảnh
+            imgElement.onerror = function () {
+                document.getElementById('main').innerHTML =
+                    '<div class="error"><h3>Lỗi!</h3>Không tìm thấy ảnh hóa đơn số: ' +
+                    billId +
+                    '</div>';
+            };
+        } else {
+            document.getElementById('main').innerHTML =
+                '<div class="error">Vui lòng quét mã QR hợp lệ.</div>';
+        }
+    </script>
+</body>
+</html>
